@@ -64,4 +64,12 @@ export const BASE_SHELTER: TShelter = {
       level: 0,
     },
   },
+  resources: {
+    wood: 0,
+    food: 0,
+    water: 0,
+    medicalSupplies: 0,
+    fuel: 0,
+    population: 0,
+  },
 };
