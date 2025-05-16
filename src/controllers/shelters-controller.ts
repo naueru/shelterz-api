@@ -41,7 +41,7 @@ export const getSheltersByUser: RequestHandler = (req, res, next) => {
   res.json({ shelters: filteredShelters });
 };
 
-export const createShelter: RequestHandler = (req, res, next) => {
+export const createShelter: RequestHandler = (req, res, _next) => {
   const { owner, name, location } = req.body;
   const createdShelter: TShelter = {
     ...BASE_SHELTER,
@@ -54,4 +54,16 @@ export const createShelter: RequestHandler = (req, res, next) => {
   DUMMY_SHELTERS.push(createdShelter);
 
   res.status(STATUS.CREATED).json({ shelter: createdShelter });
+};
+
+export const updateShelterById: RequestHandler = (req, res, _next) => {
+  const shelterId = req.params.sid;
+  const shelterIdx = shelters.findIndex((s) => s.id === shelterId);
+
+  DUMMY_SHELTERS[shelterIdx] = {
+    ...DUMMY_SHELTERS[shelterIdx],
+    ...req.body,
+  };
+
+  res.status(STATUS.CREATED).json({ shelter: DUMMY_SHELTERS[shelterIdx] });
 };
