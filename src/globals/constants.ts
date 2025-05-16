@@ -6,6 +6,7 @@ export const STATUS = {
 export const ERROR_MESSAGE = {
   ERROR: "An unknown error ocurred",
   NOT_FOUND: "Not found",
+  ROUTE_NOT_FOUND: "Could not find this route",
 };
 
 export const BASE_SHELTER: TShelter = {
