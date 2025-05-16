@@ -6,6 +6,7 @@ export const STATUS = {
 export const ERROR_MESSAGE = {
   ERROR: "An unknown error ocurred",
   NOT_FOUND: "Not found",
+  ROUTE_NOT_FOUND: "Could not find this route",
 };
 
 export const BASE_SHELTER: TShelter = {
@@ -62,5 +63,13 @@ export const BASE_SHELTER: TShelter = {
       description: "",
       level: 0,
     },
+  },
+  resources: {
+    wood: 0,
+    food: 0,
+    water: 0,
+    medicalSupplies: 0,
+    fuel: 0,
+    population: 0,
   },
 };

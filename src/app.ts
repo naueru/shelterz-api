@@ -1,14 +1,20 @@
+// Core
 import express from "express";
-import bodyParser from "body-parser";
 
+// Middlewares
+import bodyParser from "body-parser";
+import { errorHandler, routeNotFound } from "./middleware/error-handler.ts";
+
+// Routes
 import sheltersRoutes from "./routes/shelters-routes.ts";
-import { errorHandler } from "./middleware/error-handler.ts";
 
 const app = express();
 
 app.use(bodyParser.json());
 
 app.use("/api/shelters", sheltersRoutes);
+
+app.use(routeNotFound);
 
 app.use(errorHandler);
 
