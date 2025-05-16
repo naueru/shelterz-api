@@ -21,12 +21,22 @@ type TBuildings = {
   traps: TBuilding;
 };
 
+type TResources = {
+  wood: number;
+  food: number;
+  water: number;
+  medicalSupplies: number;
+  fuel: number;
+  population: number;
+};
+
 type TShelter = {
   id: string;
   owner: string;
   name: string;
   location: TLocation;
   buildings: TBuildings;
+  resources: TResources;
 };
 
 type TShelters = TShelter[];
