@@ -34,86 +34,25 @@
  *                 type: object
  *                 properties:
  *                   houses:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   farm:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   school:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   hospital:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   refinery:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   workshop:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   watchTower:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
+ *                   fence:
+ *                     type: integer
  *                   palisade:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *                   traps:
- *                     type: object
- *                     properties:
- *                       title:
- *                         type: string
- *                       description:
- *                         type: string
- *                       level:
- *                         type: integer
+ *                     type: integer
  *               resources:
  *                 type: object
  *                 properties:
@@ -130,8 +69,8 @@
  *                   population:
  *                     type: integer
  *     responses:
- *       200:
- *         description: The updated shelter object
+ *       201:
+ *         description: The created shelter object
  *         content:
  *           application/json:
  *             schema:
@@ -154,21 +93,38 @@
  *                   type: object
  *                   properties:
  *                     houses:
- *                       type: object
- *                       properties:
- *                         title:
- *                           type: string
- *                         description:
- *                           type: string
- *                         level:
- *                           type: integer
+ *                       type: integer
  *                     farm:
- *                       type: object
- *                       properties:
- *                         title:
- *                           type: string
- *                         description:
- *                           type: string
- *                         level:
- *
+ *                       type: integer
+ *                     school:
+ *                       type: integer
+ *                     hospital:
+ *                       type: integer
+ *                     refinery:
+ *                       type: integer
+ *                     workshop:
+ *                       type: integer
+ *                     watchTower:
+ *                       type: integer
+ *                     fence:
+ *                       type: integer
+ *                     palisade:
+ *                       type: integer
+ *                     traps:
+ *                       type: integer
+ *                 resources:
+ *                   type: object
+ *                   properties:
+ *                     wood:
+ *                       type: integer
+ *                     food:
+ *                       type: integer
+ *                     water:
+ *                       type: integer
+ *                     medicalSupplies:
+ *                       type: integer
+ *                     fuel:
+ *                       type: integer
+ *                     population:
+ *                       type: integer
  */
