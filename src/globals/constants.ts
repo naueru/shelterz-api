@@ -18,51 +18,16 @@ export const BASE_SHELTER: TShelter = {
     lng: 0,
   },
   buildings: {
-    houses: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    farm: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    school: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    hospital: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    refinery: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    workshop: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    watchTower: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    palisade: {
-      title: "",
-      description: "",
-      level: 0,
-    },
-    traps: {
-      title: "",
-      description: "",
-      level: 0,
-    },
+    houses: 1,
+    farm: 0,
+    school: 0,
+    hospital: 0,
+    refinery: 0,
+    workshop: 0,
+    watchTower: 0,
+    fence: 1,
+    palisade: 0,
+    traps: 0,
   },
   resources: {
     wood: 0,
