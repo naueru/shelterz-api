@@ -10,15 +10,16 @@ type TBuilding = {
 };
 
 type TBuildings = {
-  houses: TBuilding;
-  farm: TBuilding;
-  school: TBuilding;
-  hospital: TBuilding;
-  refinery: TBuilding;
-  workshop: TBuilding;
-  watchTower: TBuilding;
-  palisade: TBuilding;
-  traps: TBuilding;
+  houses: number;
+  farm: number;
+  school: number;
+  hospital: number;
+  refinery: number;
+  workshop: number;
+  watchTower: number;
+  fence: number;
+  palisade: number;
+  traps: number;
 };
 
 type TResources = {
