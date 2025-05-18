@@ -38,3 +38,11 @@ export const BASE_SHELTER: TShelter = {
     population: 0,
   },
 };
+
+export const BASE_USER: TUser = {
+  id: "",
+  userName: "",
+  email: "",
+  password: "",
+  image: "",
+};
