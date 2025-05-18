@@ -1,12 +1,16 @@
 export const STATUS = {
+  UNAUTHORIZED: 401,
   NOT_FOUND: 404,
+  UNPROCESSABLE_CONTENT: 422,
   CREATED: 201,
 };
 
 export const ERROR_MESSAGE = {
-  ERROR: "An unknown error ocurred",
-  NOT_FOUND: "Not found",
-  ROUTE_NOT_FOUND: "Could not find this route",
+  ERROR: "An unknown error ocurred.",
+  NOT_FOUND: "Not found.",
+  ROUTE_NOT_FOUND: "Could not find this route.",
+  WRONG_CREDENTIALS: "Could not identify user. Check credentials.",
+  EMAIL_ALREADY_IN_USE: "Could not create user, email already in use.",
 };
 
 export const BASE_SHELTER: TShelter = {
