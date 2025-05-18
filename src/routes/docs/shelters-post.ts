@@ -33,7 +33,7 @@
  *               type: object
  *               properties:
  *                 id:
- *                   type: integer
+ *                   type: string
  *                 owner:
  *                   type: string
  *                 name:
