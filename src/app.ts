@@ -8,6 +8,7 @@ import { createSwaggerConf } from "./middleware/swagger.ts";
 
 // Routes
 import sheltersRoutes from "./routes/shelters-routes.ts";
+import usersRoutes from "./routes/users-routes.ts";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/api-docs", ...createSwaggerConf());
 app.use(bodyParser.json());
 
 app.use("/api/shelters", sheltersRoutes);
+app.use("/api/users", usersRoutes);
 
 app.use(routeNotFound);
 
