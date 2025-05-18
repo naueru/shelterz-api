@@ -7,7 +7,7 @@ import {
   getShelters,
   getSheltersByUser,
   updateShelterById,
-} from "../controllers/shelters-controller.ts";
+} from "../controllers/shelters-controllers.ts";
 
 const sheltersRoutes: Router = express.Router();
 
