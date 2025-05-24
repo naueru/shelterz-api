@@ -11,6 +11,14 @@ export const ERROR_MESSAGE = {
   ROUTE_NOT_FOUND: "Could not find this route.",
   WRONG_CREDENTIALS: "Could not identify user. Check credentials.",
   EMAIL_ALREADY_IN_USE: "Could not create user, email already in use.",
+  INVALID_INPUTS: "Invalid inputs, please check your data.",
+};
+
+export const VALIDATION_ERROR_MESSAGE = {
+  PROPERTY_IS_REQUIRED: "{{ property }} is required.",
+  PROPERTY_MUST_BE_TYPE: "{{ property }} must be {{ type }}.",
+  PROPERTY_CANT_BE_EMPTY: "{{ property }} can not be empty.",
+  EMAIL_MUST_BE_VALID: "Email must be valid",
 };
 
 export const BASE_SHELTER: TShelter = {
