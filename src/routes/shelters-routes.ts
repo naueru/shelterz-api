@@ -9,6 +9,12 @@ import {
   updateShelterById,
 } from "../controllers/shelters-controllers.ts";
 
+// Validators
+import {
+  createShelterValidator,
+  updateShelterValidator,
+} from "../validators/shelters-validators.ts";
+
 const sheltersRoutes: Router = express.Router();
 
 sheltersRoutes.get("/", getShelters);
