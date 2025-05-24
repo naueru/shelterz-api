@@ -23,7 +23,7 @@ sheltersRoutes.get("/:sid", getShelterById);
 
 sheltersRoutes.get("/user/:uid", getSheltersByUser);
 
-sheltersRoutes.post("/", createShelter);
+sheltersRoutes.post("/", createShelterValidator, createShelter);
 
 sheltersRoutes.patch("/:sid", updateShelterById);
 
