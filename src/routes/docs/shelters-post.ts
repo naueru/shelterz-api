@@ -83,4 +83,13 @@
  *                       type: integer
  *                     population:
  *                       type: integer
+ *       422:
+ *         description: Invalid inputs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
  */
