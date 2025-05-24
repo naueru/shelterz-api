@@ -1,10 +1,14 @@
 import { v4 as uuid } from "uuid";
+import { validationResult } from "express-validator";
 
 // Types
 import type { RequestHandler } from "express";
 
 // Models
 import HttpError from "../models/http-error.ts";
+
+// Utils
+import { createMultiMsgHTTPValidationError } from "../globals/helpers.ts";
 
 // Constants
 import { BASE_SHELTER, ERROR_MESSAGE, STATUS } from "../globals/constants.ts";
@@ -41,7 +45,19 @@ export const getSheltersByUser: RequestHandler = (req, res, next) => {
   res.json({ shelters: filteredShelters });
 };
 
-export const createShelter: RequestHandler = (req, res, _next) => {
+export const createShelter: RequestHandler = (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    next(
+      createMultiMsgHTTPValidationError(
+        STATUS.UNPROCESSABLE_CONTENT,
+        errors,
+        ERROR_MESSAGE.INVALID_INPUTS
+      )
+    );
+  }
   const { owner, name, location } = req.body;
   const createdShelter: TShelter = {
     ...BASE_SHELTER,

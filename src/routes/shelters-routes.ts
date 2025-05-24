@@ -9,6 +9,12 @@ import {
   updateShelterById,
 } from "../controllers/shelters-controllers.ts";
 
+// Validators
+import {
+  createShelterValidator,
+  updateShelterValidator,
+} from "../validators/shelters-validators.ts";
+
 const sheltersRoutes: Router = express.Router();
 
 sheltersRoutes.get("/", getShelters);
@@ -17,8 +23,8 @@ sheltersRoutes.get("/:sid", getShelterById);
 
 sheltersRoutes.get("/user/:uid", getSheltersByUser);
 
-sheltersRoutes.post("/", createShelter);
+sheltersRoutes.post("/", createShelterValidator, createShelter);
 
-sheltersRoutes.patch("/:sid", updateShelterById);
+sheltersRoutes.patch("/:sid", updateShelterValidator, updateShelterById);
 
 export default sheltersRoutes;
