@@ -13,7 +13,7 @@ const usersRoutes: Router = express.Router();
 
 usersRoutes.get("/", getUsers);
 
-usersRoutes.post("/signup", signup);
+usersRoutes.post("/signup", signupValidator, signup);
 
 usersRoutes.post("/login", login);
 
