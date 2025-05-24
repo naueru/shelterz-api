@@ -25,6 +25,6 @@ sheltersRoutes.get("/user/:uid", getSheltersByUser);
 
 sheltersRoutes.post("/", createShelterValidator, createShelter);
 
-sheltersRoutes.patch("/:sid", updateShelterById);
+sheltersRoutes.patch("/:sid", updateShelterValidator, updateShelterById);
 
 export default sheltersRoutes;
