@@ -15,6 +15,6 @@ usersRoutes.get("/", getUsers);
 
 usersRoutes.post("/signup", signupValidator, signup);
 
-usersRoutes.post("/login", login);
+usersRoutes.post("/login", loginValidator, login);
 
 export default usersRoutes;
