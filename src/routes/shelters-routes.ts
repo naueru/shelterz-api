@@ -6,7 +6,10 @@ import {
   getShelterById,
   getShelters,
   getSheltersByUser,
-  updateShelterById,
+  deleteShelter,
+  upgradeShelterBuilding,
+  upgradeShelterTechnology,
+  updateShelter,
 } from "../controllers/shelters-controllers.ts";
 
 // Validators
@@ -25,6 +28,12 @@ sheltersRoutes.get("/user/:uid", getSheltersByUser);
 
 sheltersRoutes.post("/", createShelterValidator, createShelter);
 
-sheltersRoutes.patch("/:sid", updateShelterValidator, updateShelterById);
+sheltersRoutes.patch("/:sid", updateShelterValidator, updateShelter);
+
+sheltersRoutes.patch("/:sid/upgrade/building/:bid", upgradeShelterBuilding);
+
+sheltersRoutes.patch("/:sid/upgrade/technology/:tid", upgradeShelterTechnology);
+
+sheltersRoutes.delete("/:sid", updateShelterValidator, deleteShelter);
 
 export default sheltersRoutes;

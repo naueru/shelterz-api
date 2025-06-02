@@ -1,8 +1,18 @@
+// Types
+import type { TShelter } from "../types/shelters-types";
+import type { TUser } from "../types/users-types";
+
 export const STATUS = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
   UNPROCESSABLE_CONTENT: 422,
   CREATED: 201,
+  INTERNAL_SERVER_ERROR: 500,
+  SUCCESS: 200,
+};
+
+export const RESPONSE_MESSAGES = {
+  DELETED_SHELTER: "Deleted shelter",
 };
 
 export const ERROR_MESSAGE = {
@@ -12,6 +22,14 @@ export const ERROR_MESSAGE = {
   WRONG_CREDENTIALS: "Could not identify user. Check credentials.",
   EMAIL_ALREADY_IN_USE: "Could not create user, email already in use.",
   INVALID_INPUTS: "Invalid inputs, please check your data.",
+  INVALID_ID_FORMAT: "Invalid id format.",
+  SERVER_ERROR: "Internal server error.",
+  SIGNUP_ERROR: "Signup failed, please try again later.",
+  LOGIN_ERROR: "Login failed, please try again later.",
+  SHELTER_CREATION_ERROR: "Failed creating shelter, please try again later.",
+  USER_NOT_FOUND: "Could not find user for the provided id",
+  SHELTER_NOT_FOUND: "Could not find shelter for the provided id",
+  AUTHENTICATION_FAILED: "Authentication failed",
 };
 
 export const VALIDATION_ERROR_MESSAGE = {

@@ -1,71 +1,186 @@
-import { v4 as uuid } from "uuid";
+import { validationResult } from "express-validator";
+import bcrypt from "bcryptjs";
+
+import jwt from "jsonwebtoken";
 
 // Types
 import type { RequestHandler } from "express";
 
 // Models
 import HttpError from "../models/http-error.ts";
+import { UserModel } from "../models/user.ts";
+
+// Utils
+import { createMultiMsgHTTPValidationError } from "../globals/helpers.ts";
 
 // Constants
-import { BASE_USER, ERROR_MESSAGE, STATUS } from "../globals/constants.ts";
+import { ERROR_MESSAGE, STATUS } from "../globals/constants.ts";
 
-// Dummy data
-import { DUMMY_USERS } from "../globals/dummy/dummy-users.ts";
-
-const users: TUsers = DUMMY_USERS;
-
-export const getUsers: RequestHandler = (_req, res, _next) => {
-  const parsedUsers = users.map((u) => ({ id: u.id, userName: u.userName }));
-  res.json({ users: parsedUsers });
+export const getUsers: RequestHandler = async (_req, res, next) => {
+  let users;
+  try {
+    users = await UserModel.find({}, "-password");
+  } catch (err) {
+    console.log("signup -> find", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
+  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
-export const signup: RequestHandler = (req, res, next) => {
-  const { userName, email, password } = req.body;
+export const signup: RequestHandler = async (req, res, next) => {
+  const errors = validationResult(req);
 
-  const userExists: boolean = !!users.find((u) => u.email === email);
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    return next(
+      createMultiMsgHTTPValidationError(
+        STATUS.UNPROCESSABLE_CONTENT,
+        errors,
+        ERROR_MESSAGE.INVALID_INPUTS
+      )
+    );
+  }
 
-  if (userExists) {
-    next(
+  const { userName, email, password, image } = req.body;
+
+  let existingUser;
+  try {
+    existingUser = await UserModel.findOne({ email: email });
+  } catch (err) {
+    console.log("signup -> find", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
+
+  if (existingUser) {
+    return next(
       new HttpError(
         ERROR_MESSAGE.EMAIL_ALREADY_IN_USE,
         STATUS.UNPROCESSABLE_CONTENT
       )
     );
-    return;
   }
 
-  const createdUser: TUser = {
-    ...BASE_USER,
-    id: uuid(),
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    console.log("signup -> save", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.SIGNUP_ERROR, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
+
+  const createdUser = new UserModel({
     userName,
     email,
-    password,
-  };
+    password: hashedPassword,
+    image,
+    shelters: [],
+  });
 
-  DUMMY_USERS.push(createdUser);
+  try {
+    await createdUser.save();
+  } catch (err) {
+    console.log("signup -> save", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.SIGNUP_ERROR, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
 
+  let token;
+  try {
+    if (process.env.JWT_SECRET) {
+      token = jwt.sign(
+        { userId: createdUser.id, email: createdUser.email },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
+    }
+  } catch (err) {
+    console.log("signup -> jwt", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.SIGNUP_ERROR, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
   res.status(STATUS.CREATED).json({
-    id: createdUser.id,
-    userName: createdUser.userName,
-    image: createdUser.image,
-    token: "DUMMY_TOKEN",
+    user: {
+      userId: createdUser.id,
+      userName: createdUser.userName,
+      email: createdUser.email,
+      image: createdUser.image,
+      token,
+    },
   });
 };
 
-export const login: RequestHandler = (req, res, next) => {
+export const login: RequestHandler = async (req, res, next) => {
   const { email, password } = req.body;
 
-  const identifiedUser = users.find((u) => u.email === email);
-
-  if (!identifiedUser || identifiedUser.password !== password) {
-    next(new HttpError(ERROR_MESSAGE.WRONG_CREDENTIALS, STATUS.UNAUTHORIZED));
-    return;
+  let user;
+  try {
+    user = await UserModel.findOne({ email: email });
+  } catch (err) {
+    console.log("login -> find", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.LOGIN_ERROR, STATUS.INTERNAL_SERVER_ERROR)
+    );
   }
 
+  if (!user || user.password !== password) {
+    return next(
+      new HttpError(ERROR_MESSAGE.WRONG_CREDENTIALS, STATUS.UNAUTHORIZED)
+    );
+  }
+
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, user.password);
+  } catch (err) {
+    console.log("login -> compare password", err);
+    return next(
+      new HttpError(
+        ERROR_MESSAGE.WRONG_CREDENTIALS,
+        STATUS.INTERNAL_SERVER_ERROR
+      )
+    );
+  }
+
+  if (!isValidPassword) {
+    return next(
+      new HttpError(ERROR_MESSAGE.WRONG_CREDENTIALS, STATUS.UNAUTHORIZED)
+    );
+  }
+
+  let token;
+  try {
+    if (process.env.JWT_SECRET) {
+      token = jwt.sign(
+        { userId: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
+    }
+  } catch (err) {
+    console.log("signup -> jwt", err);
+    return next(
+      new HttpError(ERROR_MESSAGE.SIGNUP_ERROR, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
   res.json({
-    id: identifiedUser.id,
-    userName: identifiedUser.userName,
-    image: identifiedUser.image,
-    token: "DUMMY_TOKEN",
+    user: {
+      userId: user.id,
+      userName: user.userName,
+      email: user.email,
+      image: user.image,
+      token,
+    },
   });
 };
