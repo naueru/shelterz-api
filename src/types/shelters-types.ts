@@ -1,12 +1,8 @@
+import { Document, Types } from "mongoose";
+
 type TLocation = {
   lat: number;
   lng: number;
-};
-
-type TBuilding = {
-  title: string;
-  description: string;
-  level: number;
 };
 
 type TBuildings = {
@@ -31,7 +27,7 @@ type TResources = {
   population: number;
 };
 
-type TShelter = {
+export type TShelter = {
   id: string;
   owner: string;
   name: string;
@@ -40,4 +36,15 @@ type TShelter = {
   resources: TResources;
 };
 
-type TShelters = TShelter[];
+export type TShelters = TShelter[];
+
+export interface IShelter extends Document {
+  owner: Types.ObjectId;
+  name: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  buildings: TBuildings;
+  resources: TResources;
+}
