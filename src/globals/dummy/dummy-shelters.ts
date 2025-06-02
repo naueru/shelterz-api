@@ -1,3 +1,6 @@
+// Types
+import type { TShelters } from "../../types/shelters-types.ts";
+
 import { BASE_SHELTER } from "../constants.ts";
 
 const BASE_SHELTERS_LIST = new Array(5).fill(null);
