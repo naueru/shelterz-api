@@ -1,3 +1,7 @@
+// Types
+import type { TUsers } from "../../types/users-types.ts";
+
+// Constants
 import { BASE_USER } from "../constants.ts";
 
 const BASE_USERS_LIST = new Array(5).fill(null);
