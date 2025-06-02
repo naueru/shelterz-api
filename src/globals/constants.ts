@@ -1,3 +1,7 @@
+// Types
+import type { TShelter } from "../types/shelters-types";
+import type { TUser } from "../types/users-types";
+
 export const STATUS = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
