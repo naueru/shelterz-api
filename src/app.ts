@@ -1,5 +1,6 @@
 // Core
 import express from "express";
+import dotenv from "dotenv";
 
 // Middlewares
 import bodyParser from "body-parser";
@@ -9,6 +10,8 @@ import { createSwaggerConf } from "./middleware/swagger.ts";
 // Routes
 import sheltersRoutes from "./routes/shelters-routes.ts";
 import usersRoutes from "./routes/users-routes.ts";
+
+dotenv.config();
 
 const app = express();
 
@@ -23,4 +26,4 @@ app.use(routeNotFound);
 
 app.use(errorHandler);
 
-app.listen(5000);
+app.listen(process.env.PORT);
