@@ -13,6 +13,8 @@ import usersRoutes from "./routes/users-routes.ts";
 
 dotenv.config();
 
+import "./mongoose.ts";
+
 const app = express();
 
 app.use("/api-docs", ...createSwaggerConf());
