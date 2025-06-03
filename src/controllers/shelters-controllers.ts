@@ -26,7 +26,9 @@ export const getShelters: RequestHandler = async (_req, res, next) => {
     shelters = await ShelterModel.find();
   } catch (err) {
     console.log("getShelters", err);
-    next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR));
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
   }
 
   res.json({ shelters });
@@ -40,8 +42,9 @@ export const getShelterById: RequestHandler = async (req, res, next) => {
     shelter = await ShelterModel.findById(shelterId);
   } catch (err) {
     console.log("getShelterById", err);
-    next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR));
-    return;
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
   }
 
   if (!shelter) {
@@ -59,12 +62,13 @@ export const getSheltersByUser: RequestHandler = async (req, res, next) => {
     shelters = await ShelterModel.find({ owner: userId });
   } catch (err) {
     console.log("getSheltersByUser", err);
-    next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR));
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
   }
 
   if (!shelters || shelters.length === 0) {
-    next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.NOT_FOUND));
-    return;
+    return next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.NOT_FOUND));
   }
   res.json({
     shelters: shelters.map((place) => place.toObject({ getters: true })),
@@ -76,7 +80,7 @@ export const createShelter: RequestHandler = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     console.log(errors);
-    next(
+    return next(
       createMultiMsgHTTPValidationError(
         STATUS.UNPROCESSABLE_CONTENT,
         errors,
@@ -84,7 +88,8 @@ export const createShelter: RequestHandler = async (req, res, next) => {
       )
     );
   }
-  const { owner, name, location } = req.body;
+  const { name, location } = req.body;
+  const owner = req.userData?.userId;
 
   const createdShelter = new ShelterModel({
     ...BASE_SHELTER,
@@ -133,7 +138,7 @@ export const updateShelter: RequestHandler = async (req, res, next) => {
 
   if (!errors.isEmpty()) {
     console.log(errors);
-    next(
+    return next(
       createMultiMsgHTTPValidationError(
         STATUS.UNPROCESSABLE_CONTENT,
         errors,
@@ -150,8 +155,15 @@ export const updateShelter: RequestHandler = async (req, res, next) => {
     shelter = await ShelterModel.findById(shelterId);
   } catch (err) {
     console.log("updateShelter -> find", err);
-    next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR));
-    return;
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
+  }
+
+  if (shelter?.owner.toString() !== req.userData?.userId) {
+    return next(
+      new HttpError(ERROR_MESSAGE.USER_NOT_ALLOWED, STATUS.FORBIDDEN)
+    );
   }
 
   if (shelter) shelter.name = name;
@@ -160,8 +172,9 @@ export const updateShelter: RequestHandler = async (req, res, next) => {
     await shelter?.save();
   } catch (err) {
     console.log("updateShelter -> save", err);
-    next(new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR));
-    return;
+    return next(
+      new HttpError(ERROR_MESSAGE.NOT_FOUND, STATUS.INTERNAL_SERVER_ERROR)
+    );
   }
 
   res
@@ -210,6 +223,12 @@ export const deleteShelter: RequestHandler = async (req, res, next) => {
     );
   }
 
+  if (shelter?.owner.toString() !== req.userData?.userId) {
+    return next(
+      new HttpError(ERROR_MESSAGE.USER_NOT_ALLOWED, STATUS.FORBIDDEN)
+    );
+  }
+
   if (!shelter)
     return next(
       new HttpError(ERROR_MESSAGE.SHELTER_NOT_FOUND, STATUS.NOT_FOUND)
@@ -232,13 +251,10 @@ export const deleteShelter: RequestHandler = async (req, res, next) => {
   try {
     const session = await mongoose.startSession();
     session.startTransaction();
-    /* await createdShelter.save({ session }); */
     await shelter?.deleteOne({ session });
-    /* user.shelters.pull(shelter.id); */
     (user.shelters as mongoose.Types.Array<mongoose.Types.ObjectId>).pull(
       shelter.id
     );
-    /* shelter.owner.shelters.pull(shelter.id) */
     await user.save({ session });
     await session.commitTransaction();
   } catch (err) {
@@ -253,6 +269,20 @@ export const deleteShelter: RequestHandler = async (req, res, next) => {
     .json({ message: RESPONSE_MESSAGES.DELETED_SHELTER });
 };
 
-export const upgradeShelterBuilding: RequestHandler = (req, res, _next) => {};
+export const upgradeShelterBuilding: RequestHandler = (req, res, _next) => {
+  // Add owner validation
+  /* if (shelter?.owner.toString() !== req.userData?.userId) {
+    return next(
+      new HttpError(ERROR_MESSAGE.USER_NOT_ALLOWED, STATUS.UNAUTHORIZED)
+    );
+  } */
+};
 
-export const upgradeShelterTechnology: RequestHandler = (req, res, _next) => {};
+export const upgradeShelterTechnology: RequestHandler = (req, res, _next) => {
+  // Add owner validation
+  /* if (shelter?.owner.toString() !== req.userData?.userId) {
+    return next(
+      new HttpError(ERROR_MESSAGE.USER_NOT_ALLOWED, STATUS.UNAUTHORIZED)
+    );
+  } */
+};
