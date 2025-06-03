@@ -132,7 +132,7 @@ export const login: RequestHandler = async (req, res, next) => {
     );
   }
 
-  if (!user || user.password !== password) {
+  if (!user) {
     return next(
       new HttpError(ERROR_MESSAGE.WRONG_CREDENTIALS, STATUS.UNAUTHORIZED)
     );
@@ -153,7 +153,7 @@ export const login: RequestHandler = async (req, res, next) => {
 
   if (!isValidPassword) {
     return next(
-      new HttpError(ERROR_MESSAGE.WRONG_CREDENTIALS, STATUS.UNAUTHORIZED)
+      new HttpError(ERROR_MESSAGE.WRONG_CREDENTIALS, STATUS.FORBIDDEN)
     );
   }
 
