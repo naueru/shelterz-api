@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
   extends: [
@@ -11,3 +11,19 @@ module.exports = {
     es6: true,
   },
 };
+
+// CommonJS format
+
+/* module.exports = {
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+  ],
+  env: {
+    node: true,
+    es6: true,
+  },
+}; */
