@@ -1,5 +1,8 @@
 import express, { Router } from "express";
 
+// Middlewares
+import { checkAuth } from "../middleware/check-auth.ts";
+
 // Controllers
 import {
   createShelter,
@@ -25,6 +28,8 @@ sheltersRoutes.get("/", getShelters);
 sheltersRoutes.get("/:sid", getShelterById);
 
 sheltersRoutes.get("/user/:uid", getSheltersByUser);
+
+sheltersRoutes.use(checkAuth);
 
 sheltersRoutes.post("/", createShelterValidator, createShelter);
 

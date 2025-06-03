@@ -4,6 +4,7 @@ import type { TUser } from "../types/users-types";
 
 export const STATUS = {
   UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
   NOT_FOUND: 404,
   UNPROCESSABLE_CONTENT: 422,
   CREATED: 201,
@@ -27,9 +28,10 @@ export const ERROR_MESSAGE = {
   SIGNUP_ERROR: "Signup failed, please try again later.",
   LOGIN_ERROR: "Login failed, please try again later.",
   SHELTER_CREATION_ERROR: "Failed creating shelter, please try again later.",
-  USER_NOT_FOUND: "Could not find user for the provided id",
-  SHELTER_NOT_FOUND: "Could not find shelter for the provided id",
-  AUTHENTICATION_FAILED: "Authentication failed",
+  USER_NOT_FOUND: "Could not find user for the provided id.",
+  SHELTER_NOT_FOUND: "Could not find shelter for the provided id.",
+  AUTHENTICATION_FAILED: "Authentication failed.",
+  USER_NOT_ALLOWED: "You are not allowed to update this shelter.",
 };
 
 export const VALIDATION_ERROR_MESSAGE = {
