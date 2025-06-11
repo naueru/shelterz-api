@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import { errorHandler, routeNotFound } from "./middleware/error-handler.ts";
 import { createSwaggerConf } from "./middleware/swagger.ts";
+import { corsHandler } from "./middleware/cors.ts";
 
 // Routes
 import sheltersRoutes from "./routes/shelters-routes.ts";
@@ -20,6 +21,8 @@ const app = express();
 app.use("/api-docs", ...createSwaggerConf());
 
 app.use(bodyParser.json());
+
+app.use(corsHandler);
 
 app.use("/api/shelters", sheltersRoutes);
 app.use("/api/users", usersRoutes);
